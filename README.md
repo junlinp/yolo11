@@ -25,28 +25,34 @@ If `data.yaml` exists in dataset root and contains `names`, classes load automat
 Otherwise UI defaults to one class: `class0`.
 
 ## Train Pipeline (Hugging Face Dataset)
-Use the HF dataset as the source of truth, then train YOLO from the generated local split.
+Default one-command training pipeline:
 
 ```bash
-source .venv/bin/activate
-pip install huggingface_hub
-
-# 1) sync HF dataset -> local YOLO train/val split + data.yaml
-python scripts/sync_hf_to_yolo.py \
-  --repo-id Junlinp/yolo11-source-dataset \
-  --source-subdir source_dataset \
-  --out dataset \
-  --data-yaml data.yaml \
-  --num-classes 6
-
-# 2) train
-yolo detect train \
-  model=yolo11n.pt \
-  data=data.yaml \
-  epochs=100 \
-  imgsz=640 \
-  batch=16 \
-  device=0 \
-  project=runs/train \
-  name=hf_train
+bash scripts/train_from_hf.sh
 ```
+
+Default values used by `scripts/train_from_hf.sh`:
+- repo: `Junlinp/yolo11-source-dataset`
+- source subdir: `source_dataset`
+- base model: `yolo11n.pt`
+- output checkpoint: `checkpoints/hf_trained.pt`
+- classes: `6`
+- epochs: `100`
+- imgsz: `640`
+- batch: `16`
+- device: `0`
+
+Pipeline steps:
+1. `scripts/download_hf.sh`: download dataset repo from Hugging Face
+2. `scripts/convert_to_yolo.sh`: convert/split into YOLO train/val format
+3. `scripts/train_yolo.sh`: train YOLO and keep only final checkpoint
+
+## Export ONNX
+Convert the trained checkpoint to ONNX:
+
+```bash
+bash scripts/convert_hf_to_onnx.sh
+```
+
+Default output:
+- `checkpoints/hf_trained.onnx`
