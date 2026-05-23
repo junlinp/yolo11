@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOLO11 Labeler</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="panel left">
+      <h1>YOLO11 Labeler</h1>
+      <div class="group">
+        <div id="datasetInfo"></div>
+      </div>
+
+      <div class="group">
+        <label for="classSelect">Class</label>
+        <select id="classSelect"></select>
+      </div>
+
+      <div class="group row">
+        <button id="prevBtn">Prev</button>
+        <button id="nextBtn">Next</button>
+      </div>
+
+      <div class="group row">
+        <button id="saveBtn">Save</button>
+        <button id="clearBtn">Clear</button>
+      </div>
+
+      <div class="group">
+        <label for="imageJump">Go To Index</label>
+        <input type="number" id="imageJump" min="1" step="1" />
+        <button id="jumpBtn">Go</button>
+      </div>
+
+      <div class="group">
+        <p id="status"></p>
+      </div>
+    </aside>
+
+    <main class="panel main">
+      <div class="toolbar">
+        <span id="imageName"></span>
+        <span id="imageCounter"></span>
+      </div>
+      <div id="canvasWrap">
+        <canvas id="canvas"></canvas>
+      </div>
+      <p class="hint">Draw: drag mouse on image. Delete: click a box then press Delete/Backspace.</p>
+    </main>
+
+    <aside class="panel right">
+      <h2>Boxes</h2>
+      <ul id="boxList"></ul>
+    </aside>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
